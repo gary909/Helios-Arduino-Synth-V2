@@ -115,7 +115,7 @@ void updateControl(){
   atkVal = mozziAnalogRead(atkPot);    // read the value from the attack pot
   dkyVal = mozziAnalogRead(dkyPot);    // read the value from the decay pot
   envelope.setADLevels(atkVal,dkyVal); // A bit of attack / decay while testing
-  envelope.setTimes(atkVal,200,10000,dkyVal); // 10000 is so the note will sustain 10 seconds unless a noteOff comes
+  envelope.setTimes(atkVal,10000,10000,dkyVal); // 10000 is so the note will sustain 10 seconds unless a noteOff comes
 //  Serial.print(dkyVal);
 //  Serial.print('\n');
 

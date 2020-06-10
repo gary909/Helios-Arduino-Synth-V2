@@ -38,8 +38,13 @@
 // https://bloghoskins.blogspot.com/
 
 /*  
+ *   v2
+ *   This version adds Attack & Release on the analog inputs.  Use
+ *   A5 for Atk and A4 for Release
+ *   
+ *   v1
  *   This vesrion of code lets you set between SQR and SAW wave with a switch
- *   MIDI is working. 
+ *   MIDI is working. Set up a switch on 
  *   You'll need to install the MIDI & Mozzi libraries to get it to work
 */
 
@@ -61,9 +66,9 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 
 // NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW
 // Set up Attack Envelope
-int atkPot = A5;    // select the input pin for the potentiometer
+const int atkPot = A5;    // select the input pin for the potentiometer
 int atkVal = 0;       // variable to store the value coming from the pot
-int dkyPot = A4;    // select the input pin for the potentiometer
+const int dkyPot = A4;    // select the input pin for the potentiometer
 int dkyVal = 0;       // variable to store the value coming from the pot
 
 // use #define for CONTROL_RATE, not a constant
@@ -99,8 +104,8 @@ void setup() {
   // Initiate MIDI communications, listen to all channels (not needed with Teensy usbMIDI)
   MIDI.begin(MIDI_CHANNEL_OMNI);  
     
-  envelope.setADLevels(255,64); // A bit of attack / decay while testing
-  envelope.setTimes(200,200,10000,200); // 10000 is so the note will sustain 10 seconds unless a noteOff comes
+//  envelope.setADLevels(255,64); // A bit of attack / decay while testing
+//  envelope.setTimes(200,200,10000,200); // 10000 is so the note will sustain 10 seconds unless a noteOff comes
 
   oscil1.setFreq(440); // default frequency
   startMozzi(CONTROL_RATE); 
@@ -114,10 +119,10 @@ void updateControl(){
   // NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW
   atkVal = mozziAnalogRead(atkPot);    // read the value from the attack pot
   dkyVal = mozziAnalogRead(dkyPot);    // read the value from the decay pot
+  
   envelope.setADLevels(atkVal,dkyVal); // A bit of attack / decay while testing
   envelope.setTimes(atkVal,10000,10000,dkyVal); // 10000 is so the note will sustain 10 seconds unless a noteOff comes
-//  Serial.print(dkyVal);
-//  Serial.print('\n');
+
 
   // Pin two is connected to the middle of a switch, high switch goes to 5v, low to ground
   pinMode(2, INPUT_PULLUP); 
@@ -139,7 +144,5 @@ int updateAudio(){
 
 
 void loop() {
-//  Serial.print('\n');
-//  Serial.print(atkVal);
   audioHook(); // required here
 } 

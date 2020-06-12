@@ -39,6 +39,7 @@
 
 /*  
  *   v2
+ *   https://bloghoskins.blogspot.com/2020/06/helios-one-arduino-synth-part-2.html
  *   This version adds Attack & Release on the analog inputs. You'll need 2 pots. 
  *   Connect center pot pin to;
  *   A5: for Atk
